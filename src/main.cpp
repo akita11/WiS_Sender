@@ -236,14 +236,14 @@ void wifi_sniffer_packet_handler(void *buff, wifi_promiscuous_pkt_type_t type)
   mbedtls_md_finish(&ctx, shaResult);
   mbedtls_md_free(&ctx);
 
-  for (uint8_t i = 0; i < 32; i++) printf("%02x ", shaResult[i]);
+  for (uint8_t i = 0; i < 32; i++) printf("%02x ", shaResult[i]); printf("\n");
 
 	uint16_t pt = find_list(shaResult);
 	if (pt == 0xffff){ // new ID
-		pList++;
-		if (pList >= LIST_SIZE) pList = LIST_SIZE - 1;
 		for (uint8_t i = 0; i < 32; i++) list[pList][i] = shaResult[i];
 		count[pList] = 1;
+		pList++;
+		if (pList >= LIST_SIZE) pList = LIST_SIZE - 1;
 	}
 	else count[pt]++;
 }
